@@ -35,6 +35,17 @@ public class MensagemController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<Mensagem> pegarMensagem(@PathVariable int id) {
+		Mensagem mensagem = mensagemService.pegarMensagemPeloId(id);
+		
+		if (mensagem == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(mensagem);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Mensagem> criarMensagem(@RequestBody Mensagem mensagem) {
 		mensagemService.salvarMensagem(mensagem);

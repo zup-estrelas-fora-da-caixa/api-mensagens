@@ -15,6 +15,14 @@ public class MensagemService {
 		return mensagemRepository.findAll();
 	}
 	
+	public Mensagem pegarMensagemPeloId(int id) {
+		if (mensagemRepository.existsById(id)) {
+			return mensagemRepository.findById(id).get();	
+		}
+		
+		return null;
+	}
+	
 	public void salvarMensagem(Mensagem mensagem) {
 		mensagemRepository.save(mensagem);
 	}
