@@ -19,6 +19,15 @@ public class MensagemService {
 		mensagemRepository.save(mensagem);
 	}
 	
+	public void atualizarMensagem(int id, Mensagem mensagem) {
+		mensagem.setId(id);
+		mensagemRepository.save(mensagem);
+	}
+	
+	public void apagarMensagem(int id) {
+		mensagemRepository.deleteById(id);
+	}
+	
 	public long quantidadeDeMensagens() {
 		return mensagemRepository.count();
 	}
