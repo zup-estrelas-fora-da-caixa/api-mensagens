@@ -68,12 +68,7 @@ public class MensagemController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> apagarMensagem(@PathVariable int id) {
-		try {
-			mensagemService.apagarMensagem(id);
-			return ResponseEntity.ok().build();	
-		}
-		catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+		mensagemService.apagarMensagem(id);
+		return ResponseEntity.ok().build();
 	}
 }

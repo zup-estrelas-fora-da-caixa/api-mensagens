@@ -3,6 +3,7 @@ package com.br.zup.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.br.zup.exceptions.MensagemNaoEncontradaException;
@@ -37,7 +38,12 @@ public class MensagemService {
 	}
 	
 	public void apagarMensagem(int id) {
-		mensagemRepository.deleteById(id);
+		try {
+			mensagemRepository.deleteById(id);	
+		}
+		catch(EmptyResultDataAccessException e) {
+			throw new MensagemNaoEncontradaException("Não há mensagens com esse id");
+		}
 	}
 	
 	public long quantidadeDeMensagens() {
