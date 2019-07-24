@@ -1,5 +1,7 @@
 package com.br.zup.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +18,19 @@ public class MensagemService {
 	}
 	
 	public Mensagem pegarMensagemPeloId(int id) {
-		if (mensagemRepository.existsById(id)) {
-			return mensagemRepository.findById(id).get();	
-		}
-		
-		return null;
+		return mensagemRepository.findById(id).get();	
 	}
 	
 	public void salvarMensagem(Mensagem mensagem) {
 		mensagemRepository.save(mensagem);
 	}
 	
-	public void atualizarMensagem(int id, Mensagem mensagem) {
+	public void atualizarMensagem(int id, Mensagem mensagem) throws Exception {
+		Optional<Mensagem> optionalMensagem = mensagemRepository.findById(id);
+		if (!optionalMensagem.isPresent()) {
+			throw new Exception("Não há mensagens com esse id");
+		}
+		
 		mensagem.setId(id);
 		mensagemRepository.save(mensagem);
 	}

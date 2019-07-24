@@ -1,5 +1,7 @@
 package com.br.zup.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,32 +38,47 @@ public class MensagemController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Mensagem> pegarMensagem(@PathVariable int id) {
-		Mensagem mensagem = mensagemService.pegarMensagemPeloId(id);
-		
-		if (mensagem == null) {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<?> pegarMensagem(@PathVariable int id) {
+		try {
+			Mensagem mensagem = mensagemService.pegarMensagemPeloId(id);
+			return ResponseEntity.ok(mensagem);
 		}
-		
-		return ResponseEntity.ok(mensagem);
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 	
 	@PostMapping
-	public ResponseEntity<Mensagem> criarMensagem(@RequestBody Mensagem mensagem) {
-		mensagemService.salvarMensagem(mensagem);
-		return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);
+	public ResponseEntity<?> criarMensagem(@Valid @RequestBody Mensagem mensagem) {
+		try {
+			mensagemService.salvarMensagem(mensagem);
+			return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);	
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Mensagem> atualizarMensagem(@PathVariable int id,
-												@RequestBody Mensagem mensagem) {
-		mensagemService.atualizarMensagem(id, mensagem);
-		return ResponseEntity.ok(mensagem);
+	public ResponseEntity<?> atualizarMensagem(@PathVariable int id,
+												@Valid @RequestBody Mensagem mensagem) {
+		try {
+			mensagemService.atualizarMensagem(id, mensagem);
+			return ResponseEntity.ok(mensagem);
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity apagarMensagem(@PathVariable int id) {
-		mensagemService.apagarMensagem(id);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<?> apagarMensagem(@PathVariable int id) {
+		try {
+			mensagemService.apagarMensagem(id);
+			return ResponseEntity.ok().build();	
+		}
+		catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 }
