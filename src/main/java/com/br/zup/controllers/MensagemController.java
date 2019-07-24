@@ -62,13 +62,8 @@ public class MensagemController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizarMensagem(@PathVariable int id,
 												@Valid @RequestBody Mensagem mensagem) {
-		try {
-			mensagemService.atualizarMensagem(id, mensagem);
-			return ResponseEntity.ok(mensagem);
-		}
-		catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
+		mensagemService.atualizarMensagem(id, mensagem);
+		return ResponseEntity.ok(mensagem);
 	}
 	
 	@DeleteMapping("/{id}")

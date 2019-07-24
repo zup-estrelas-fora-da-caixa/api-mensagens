@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.br.zup.exceptions.MensagemNaoEncontradaException;
 import com.br.zup.models.Mensagem;
 import com.br.zup.repositories.MensagemRepository;
 
@@ -25,10 +26,10 @@ public class MensagemService {
 		mensagemRepository.save(mensagem);
 	}
 	
-	public void atualizarMensagem(int id, Mensagem mensagem) throws Exception {
+	public void atualizarMensagem(int id, Mensagem mensagem) {
 		Optional<Mensagem> optionalMensagem = mensagemRepository.findById(id);
 		if (!optionalMensagem.isPresent()) {
-			throw new Exception("Não há mensagens com esse id");
+			throw new MensagemNaoEncontradaException("Não há mensagens com esse id");
 		}
 		
 		mensagem.setId(id);
